@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: task-manager-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: task-manager-db
+          property: connectionString
+databases:
+  - name: task-manager-db
+    engine: sqlite
+    plan: free
